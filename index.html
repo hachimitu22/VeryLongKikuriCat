@@ -21,6 +21,8 @@
       function addSquare(target) {
         const template = document.getElementById('template-square');
         const clone = template.content.cloneNode(true);
+        const colors = ['black', 'blue', 'green'];
+        clone.children[0].style.background = colors[Math.floor(Math.random() * (colors.length + 1))];
         target.appendChild(clone);
       }
       function stretchContents() {
