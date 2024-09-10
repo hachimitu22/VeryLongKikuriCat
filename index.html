@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <style>
+      .big-square {
+        width: 200px;
+        height: 200px;
+        background: red;
+      }
+      .square {
+        width: 50px;
+        height: 50px;
+        background: black;
+      }
+    </style>
+    <script type="text/javascript">
+      function canScrollVertical(element) {
+        return element.scrollHeight > element.clientHeight;
+      }
+      function addSquare(target) {
+        const template = document.getElementById('template-square');
+        const clone = template.content.cloneNode(true);
+        target.appendChild(clone);
+      }
+
+      window.onload = () => {
+        const contents = document.getElementById('contents');
+        while(!canScrollVertical(document.documentElement)) {
+          addSquare(contents);
+        }
+
+        document.onscroll = function () {
+          const bottom = document.documentElement.scrollTop + document.documentElement.clientHeight;
+          const line = document.documentElement.scrollHeight - 30;
+
+          if(line < bottom) {
+            addSquare(contents);
+          }
+        };
+      };
+    </script>
+  </head>
+  <body>
+    <template id="template-square">
+      <div class="square"></div>
+    </template>
+
+    <div id="contents">
+      <div class="big-square"></div>
+    </div>
+  </body>
+</html>
