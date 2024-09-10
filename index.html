@@ -23,12 +23,15 @@
         const clone = template.content.cloneNode(true);
         target.appendChild(clone);
       }
-
-      window.onload = () => {
+      function stretchContents() {
         const contents = document.getElementById('contents');
         while(!canScrollVertical(document.documentElement)) {
           addSquare(contents);
         }
+      }
+
+      window.onload = () => {
+        stretchContents();
 
         document.onscroll = function () {
           const bottom = document.documentElement.scrollTop + document.documentElement.clientHeight;
@@ -37,6 +40,10 @@
           if(line < bottom) {
             addSquare(contents);
           }
+        };
+
+        window.onresize = function() {
+          stretchContents();
         };
       };
     </script>
