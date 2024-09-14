@@ -13,7 +13,7 @@
         height: 50px;
         background: black;
       }
-      #score {
+      header {
         position: fixed;
         top: 0;
         right: 0;
@@ -42,6 +42,16 @@
         const score = Number(scoreElement.innerText);
         const nextScore = score + increaseScore;
         scoreElement.innerText = nextScore;
+
+        return nextScore;
+      }
+
+      function setShareScore(score) {
+        if(twttr) {
+          const tweetButton = document.getElementById('tweetButtonWrapper');
+          tweetButton.innerHTML = `<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="${score}" data-hashtags="VeryLongKikuriCat" data-show-count="false">Tweet</a>`;
+          twttr.widgets.load();
+        }
       }
 
       window.onload = () => {
@@ -53,7 +63,8 @@
 
           if(line < bottom) {
             addSquare(contents);
-            addScore(20);
+            const score = addScore(20);
+            setShareScore(score);
           }
         };
 
@@ -68,7 +79,13 @@
       <div class="square"></div>
     </template>
 
-    <div id="score">0</div>
+    <header>
+      <div id="score">0</div>
+      <div id="tweetButtonWrapper">
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="" data-hashtags="VeryLongKikuriCat" data-show-count="false">Tweet</a>
+      </div>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </header>
     <div id="contents">
       <div class="big-square"></div>
     </div>
