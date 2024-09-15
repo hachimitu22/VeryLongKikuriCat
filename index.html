@@ -3,20 +3,22 @@
   <head>
     <title></title>
     <style>
-      .big-square {
-        width: 200px;
-        height: 200px;
-        background: red;
-      }
-      .square {
-        width: 50px;
-        height: 50px;
-        background: black;
+      body {
+        margin: 0px;
       }
       header {
         position: fixed;
-        top: 0;
-        right: 0;
+        top: 0px;
+        left: 0px;
+      }
+      #contents {
+        text-align: right;
+      }
+      .kikuri-img {
+        padding: 0;
+        margin: 0;
+        vertical-align: middle;
+        width: 90%;
       }
       #twitter-share-button {
         border: none;
@@ -34,10 +36,8 @@
         return element.scrollHeight > element.clientHeight;
       }
       function addSquare(target) {
-        const template = document.getElementById('template-square');
+        const template = document.getElementById('template-kikuri-loop');
         const clone = template.content.cloneNode(true);
-        const colors = ['black', 'blue', 'green'];
-        clone.children[0].style.background = colors[Math.floor(Math.random() * (colors.length + 1))];
         target.appendChild(clone);
       }
       function stretchContents() {
@@ -87,8 +87,10 @@
     </script>
   </head>
   <body>
-    <template id="template-square">
-      <div class="square"></div>
+    <template id="template-kikuri-loop">
+      <div class="kikuri kikuri-loop">
+        <img src="./assets/img/kikuri_loop.png" class="kikuri-img">
+      </div>
     </template>
 
     <header>
@@ -98,7 +100,9 @@
       </div>
     </header>
     <div id="contents">
-      <div class="big-square"></div>
+      <div class="kikuri kikuri-top">
+        <img src="./assets/img/kikuri_top.png" class="kikuri-img">
+      </div>
     </div>
   </body>
 </html>
