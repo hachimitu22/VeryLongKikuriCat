@@ -18,7 +18,17 @@
         top: 0;
         right: 0;
       }
+      #twitter-share-button {
+        border: none;
+        font-size: 1.5em;
+        background-color: #1DA1F2;
+        padding: 6px 16px;
+        border-radius: 100vh;
+        color: white;
+        cursor: pointer;
+      }
     </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <script type="text/javascript">
       function canScrollVertical(element) {
         return element.scrollHeight > element.clientHeight;
@@ -42,16 +52,11 @@
         const score = Number(scoreElement.innerText);
         const nextScore = score + increaseScore;
         scoreElement.innerText = nextScore;
-
-        return nextScore;
       }
 
-      function setShareScore(score) {
-        if(twttr) {
-          const tweetButton = document.getElementById('tweetButtonWrapper');
-          tweetButton.innerHTML = `<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="${score}" data-hashtags="VeryLongKikuriCat" data-show-count="false">Tweet</a>`;
-          twttr.widgets.load();
-        }
+      function getScore() {
+        const scoreElement = document.getElementById('score');
+        return Number(scoreElement.innerText);
       }
 
       window.onload = () => {
@@ -64,13 +69,20 @@
           if(line < bottom) {
             addSquare(contents);
             const score = addScore(20);
-            setShareScore(score);
           }
         };
 
         window.onresize = function() {
           stretchContents();
         };
+
+        document.getElementById("twitter-share-button").onclick = function() {
+          const url = new URL('https://twitter.com/share');
+          url.searchParams.append('text', getScore());
+          url.searchParams.append('hashtags', 'VeryLongKikuriCat');
+          url.searchParams.append('url', encodeURIComponent(location.href));
+          window.open(url.href);
+        }
       };
     </script>
   </head>
@@ -81,10 +93,9 @@
 
     <header>
       <div id="score">0</div>
-      <div id="tweetButtonWrapper">
-        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="" data-hashtags="VeryLongKikuriCat" data-show-count="false">Tweet</a>
+      <div class="tweet" id="tweet">
+        <button id="twitter-share-button"><i class="fab fa-twitter"></i></button>
       </div>
-      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </header>
     <div id="contents">
       <div class="big-square"></div>
