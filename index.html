@@ -18,7 +18,6 @@
         padding: 0;
         margin: 0;
         vertical-align: middle;
-        width: 90%;
       }
       #twitter-share-button {
         border: none;
@@ -83,6 +82,39 @@
           url.searchParams.append('url', encodeURIComponent(location.href));
           window.open(url.href);
         }
+
+        document.getElementById('download').onclick = function() {
+          const bottom = document.createElement( 'img' );
+          bottom.addEventListener('load', () => {
+            // find image
+            const top = Array.from(window.document.images).filter(img => img.src.includes('kikuri_top.png'))[0];
+            const loops = Array.from(window.document.images).filter(img => img.src.includes('kikuri_loop.png'));
+            const images = [top, ...loops, bottom];
+
+            // set height
+            const topHeight = top.height;
+            const loopsHeight = loops.length * loops[0].height;
+            const bottomHeight = bottom.height;
+            const width = top.height;
+
+            // create canvas
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.height = topHeight + loopsHeight + bottomHeight;
+            canvas.width = width;
+            images.reduce((heightOffset, cur) => {
+              ctx.drawImage(cur, 0, heightOffset);
+              return heightOffset + cur.height;
+            }, 0);
+
+            // download start
+            const link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = "test.png";
+            link.click();
+          });
+          bottom.src = './assets/img/kikuri_bottom.png';
+        };
       };
     </script>
   </head>
@@ -98,6 +130,7 @@
       <div class="tweet" id="tweet">
         <button id="twitter-share-button"><i class="fab fa-twitter"></i></button>
       </div>
+      <button id="download">download</button>
     </header>
     <div id="contents">
       <div class="kikuri kikuri-top">
