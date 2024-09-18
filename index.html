@@ -46,11 +46,9 @@
         }
       }
 
-      function addScore(increaseScore) {
+      function setScore(score) {
         const scoreElement = document.getElementById('score');
-        const score = Number(scoreElement.innerText);
-        const nextScore = score + increaseScore;
-        scoreElement.innerText = nextScore;
+        scoreElement.innerText = score;
       }
 
       function getScore() {
@@ -67,7 +65,12 @@
 
           if(line < bottom) {
             addSquare(contents);
-            const score = addScore(20);
+          }
+
+          const nextScore = Math.floor(window.scrollY);
+          const score = getScore();
+          if(nextScore > score) {
+            setScore(nextScore);
           }
         };
 
